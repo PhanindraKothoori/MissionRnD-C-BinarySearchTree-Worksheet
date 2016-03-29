@@ -22,14 +22,50 @@ struct node{
 	struct node *right;
 };
 
-
-void inorder(struct node *root, int *arr){
+void append(int *arr, int *index, int value){
+	arr[*index] = value;
+	(*index)++;
+}
+void performInOrder(struct node *root, int *arr, int *index){
+	if (root == NULL)
+		return;
 	
+	performInOrder(root->left, arr,index);
+	append(arr, index, root->data);
+	performInOrder(root->right, arr,index);
+}
+
+void performPreOrder(struct node *root, int *arr, int *index){
+	if (root == NULL)
+		return;
+	append(arr, index, root->data);
+	performInOrder(root->left, arr,index);
+	performInOrder(root->right, arr,index);
+}
+void performPostOrder(struct node *root, int *arr, int *index){
+	if (root == NULL)
+		return;
+	
+	performInOrder(root->left, arr,index);
+	performInOrder(root->right, arr,index);
+	append(arr, index, root->data);
+}
+void inorder(struct node *root, int *arr){
+	if (root && arr){
+		int index = 0;
+		performInOrder(root, arr, &index);
+	}
 }
 void preorder(struct node *root, int *arr){
-	
+	if (root && arr){
+		int index = 0;
+		performPreOrder(root, arr, &index);
+	}
 }
 void postorder(struct node *root, int *arr){
-	
+	if (root && arr){
+		int index = 0;
+		performPostOrder(root, arr,&index);
+	}
 }
 
